@@ -199,7 +199,7 @@ const getAllProperties = (options, limit = 10) => {
   ORDER BY cost_per_night
   LIMIT $${queryParams.length};
   `;
-console.log('AAAAAAA', queryString, queryParams);
+
   return pool
     .query(queryString, queryParams).then((result) => {
       if (result.rows) {
