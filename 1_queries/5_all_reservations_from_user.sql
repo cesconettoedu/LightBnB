@@ -7,3 +7,4 @@ GROUP BY reservations.id, title, reservations.start_date, cost_per_night
 ORDER BY start_date 
 LIMIT 10
 ;
+

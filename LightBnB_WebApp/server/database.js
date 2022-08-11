@@ -11,17 +11,19 @@ const pool = new Pool({
   database: 'lightbnb'
 });
 
+
 // 3-test connect
 // pool.query(`SELECT title FROM properties LIMIT 10;`).then(response => {console.log(response)})
 
-/// Users
+
+///*********************** USERS *********************************
 /**
  * Get a single user from the database given their email.
  * @param {String} email The email of the user.
  * @return {Promise<{}>} A promise to the user.
  */
 
-// 5-reactoring function
+//function for when a existing user trying to login
 const getUserWithEmail = function(email) {
   return pool.query(`
   SELECT * FROM users WHERE users.email = $1;`, [email])
@@ -45,7 +47,8 @@ exports.getUserWithEmail = getUserWithEmail;
  * @param {string} id The id of the user.
  * @return {Promise<{}>} A promise to the user.
  */
-// 6-reactoring function
+
+// keep the user logged
 const getUserWithId = function(id) {
   return pool.query(`
   SELECT * FROM users WHERE users.id = $1;`, [id])
@@ -71,7 +74,7 @@ exports.getUserWithId = getUserWithId;
  * @param {{name: string, password: string, email: string}} user
  * @return {Promise<{}>} A promise to the user.
  */
-// 7-refactoring function
+// to add a new user
 const addUser =  function(user) {
   return pool.query(`
   INSERT INTO users (name, email, password) VALUES ($1, $2, $3);`, [user.name, user.email, user.password])
@@ -91,16 +94,15 @@ const addUser =  function(user) {
 
 exports.addUser = addUser;
 
-/// Reservations
-
+///********************* RESERVATIONS ********************************
 /**
  * Get all reservations for a single user.
  * @param {string} guest_id The id of the user.
  * @return {Promise<[{}]>} A promise to the reservations.
  */
-//8-refactoring function
+
+// show the current user's reservations
 const getAllReservations = function(guest_id, limit = 10) {
-  //return getAllProperties(null, 2);
   return pool.query(`
   SELECT reservations.id, title, cost_per_night, reservations.start_date, avg(rating) as average_rating, thumbnail_photo_url, parking_spaces, number_of_bathrooms, number_of_bedrooms
   FROM properties
@@ -125,8 +127,7 @@ const getAllReservations = function(guest_id, limit = 10) {
 };
 exports.getAllReservations = getAllReservations;
 
-/// Properties
-
+///********************* PROPERTIES ********************************
 /**
  * Get all properties.
  * @param {{}} options An object containing query options.
@@ -134,7 +135,7 @@ exports.getAllReservations = getAllReservations;
  * @return {Promise<[{}]>}  A promise to the properties.
  */
 
-// 4- update the function - 9-update again
+// return the search with parameters provided by the user
 const getAllProperties = (options, limit = 10) => {
   
   const queryParams = [];
@@ -142,12 +143,12 @@ const getAllProperties = (options, limit = 10) => {
   let queryString = `
   SELECT properties.*, avg(property_reviews.rating) as average_rating
   FROM properties
-  JOIN property_reviews ON properties.id = property_id
+  LEFT OUTER JOIN property_reviews ON properties.id = property_id
   `;
  
-  // owner_id passed
+  // if owner_id passed
   if (options.owner_id) {
-    queryParams.push(`%${options.owner_id}%`);
+    queryParams.push(`${options.owner_id}`);
     queryString += `WHERE owner_id = $${queryParams.length} `;
   }
 
@@ -198,7 +199,7 @@ const getAllProperties = (options, limit = 10) => {
   ORDER BY cost_per_night
   LIMIT $${queryParams.length};
   `;
-
+console.log('AAAAAAA', queryString, queryParams);
   return pool
     .query(queryString, queryParams).then((result) => {
       if (result.rows) {
@@ -220,13 +221,8 @@ exports.getAllProperties = getAllProperties;
  * @return {Promise<{}>} A promise to the property.
  */
 
-//10 refactoring this function
+//function to save a new property to the properties table
 const addProperty = function(property) {
-  // const propertyId = Object.keys(properties).length + 1;
-  // property.id = propertyId;
-  // properties[propertyId] = property;
-  // return Promise.resolve(property);
-
   return pool.query(`
   INSERT INTO properties 
     (owner_id,
