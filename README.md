@@ -1,6 +1,12 @@
 # LightBnB
 
-#### Start Local server:
+## Lighthouse BnB is an app that allow homeowners to rent out their homes to people on vacation, creating an alternative to hotels and bed and breakfasts. Users can view property information, search for City, price and rating, first ever application to do something like this.
+
+#
+
+#### To get started follow the steps below:
+
+#### 1 - Start Local server
 
 #### After download.
 
@@ -10,7 +16,7 @@ Inside of LightBnB/LightBnB_WebApp directory
 
     run de command  'npm run local'
 
-#### Open your browser and typing:
+#### 2 - Open your browser and typing:
 
     http://localhost:3000/
 
