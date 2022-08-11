@@ -23,7 +23,7 @@ const pool = new Pool({
  * @return {Promise<{}>} A promise to the user.
  */
 
-//function for when a existing user trying to login
+//function when a existing user trying to login
 const getUserWithEmail = function(email) {
   return pool.query(`
   SELECT * FROM users WHERE users.email = $1;`, [email])
@@ -74,6 +74,7 @@ exports.getUserWithId = getUserWithId;
  * @param {{name: string, password: string, email: string}} user
  * @return {Promise<{}>} A promise to the user.
  */
+
 // to add a new user
 const addUser =  function(user) {
   return pool.query(`
@@ -93,6 +94,7 @@ const addUser =  function(user) {
 };
 
 exports.addUser = addUser;
+
 
 ///********************* RESERVATIONS ********************************
 /**
@@ -125,7 +127,9 @@ const getAllReservations = function(guest_id, limit = 10) {
     });
 
 };
+
 exports.getAllReservations = getAllReservations;
+
 
 ///********************* PROPERTIES ********************************
 /**
@@ -152,7 +156,6 @@ const getAllProperties = (options, limit = 10) => {
     queryString += `WHERE owner_id = $${queryParams.length} `;
   }
 
-  
   if (options.city) {
     if (queryParams.length === 0) {
       queryString += `WHERE `;
