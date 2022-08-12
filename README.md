@@ -14,7 +14,7 @@ Check the dependencies at the bottom of the page.
 
 Inside of LightBnB/LightBnB_WebApp directory
 
-    run de command  'npm run local'
+    run the command  'npm run local'
 
 #### 2 - Open your browser and typing:
 
@@ -25,7 +25,7 @@ Inside of LightBnB/LightBnB_WebApp directory
 - Create user.
 - Search for properties according to city, minimum and maximum cost per night and user qualification for the property.
 - Add a property
-- See your reservations
+- Check your list
 
 ## Dependencies:
 
